@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "main.h"
+
 int main(void)
+
+	/* change color of window */
 {
 
 	char accountName[30];
@@ -11,6 +15,7 @@ int main(void)
 	float accountBalance = 0;
 	int choice;
 	float minimumDeposite = 5;
+	int continueTransaction = 1;
 
 	FILE *fp = NULL;
 	char saveSlip = 'y';
@@ -37,22 +42,24 @@ int main(void)
 
 	printf("\tAccount balance is %.2f\n\n", accountBalance);
 
-	
+	do {
 	printf("\tWhat else do you what to do?\n\n");
 	printf("\tEnter 1 for check balance.\n");
 	printf("\tEnter 2 for deposit.\n");
 	printf("\tEnter 3 for withdraw.\n");
 	printf("\tEnter 4 for transfer.\n");
-	printf("\tEnter 5 to Exit.\n");
+
 	scanf("\t%d", &choice);
 
 	if (choice == 1)
 	{
+		system("clear");
+		system("clear");
 		int account1;
 
 		printf("\tselect account:\n");
 		printf("\t1. account: %ld\n", accountNum);
-		scanf("%d", &account1);
+		scanf("%d: \t", &account1);
 		
 		if (account1 == 1)
 		{
@@ -67,10 +74,11 @@ int main(void)
 	}
 	else if (choice == 2)
 	{
+		system("clear");
 		float tmpDepost;
 
-		printf("Enter amount to deposit. \n");
-		scanf("%f", &depositeAmount);
+		printf("\t\t\tEnter amount to deposit. \n");
+		scanf("%f: \t", &depositeAmount);
 		
 		if (depositeAmount > 5)
 		{
@@ -80,35 +88,38 @@ int main(void)
 
 			printf("\t\tNew Balance is %.2f\n\n\n", accountBalance);
 
-			printf("\t\t================ Py Bank. =================\n\n");
-			printf("\t\t\t\tDepost slip.\n\n");
-			printf("\t\tDate: %s  Time: %s.\n\n",  __DATE__, __TIME__);
-			printf("\t\tAccount Name: %s      \n\n",  accountName);
-			printf("\t\tAcount Number: %ld\n\n", accountNum);
-			printf("\t\t                 Depost Amount: %.2f\n", tmpDepost);
-			printf("\t\t\t\t           --------------\n");
-			printf("\t\t\t\tAccount Balance: %.2f\n\n\n", accountBalance);
-			printf("\t\t ----------Thankyou for choosing Py bank.---------\n\n");
+			//printf("\t\t================ Py Bank. =================\n\n");
+			//printf("\t\t\t\tDepost slip.\n\n");
+			//printf("\t\tDate: %s  Time: %s.\n\n",  __DATE__, __TIME__);
+			//printf("\t\tAccount Name: %s      \n\n",  accountName);
+			//printf("\t\tAcount Number: %ld\n\n", accountNum);
+			//printf("\t\t                 Depost Amount: %.2f\n", tmpDepost);
+			//printf("\t\t\t\t           --------------\n");
+			//printf("\t\t\t\tAccount Balance: %.2f\n\n\n", accountBalance);
+			//printf("\t\t ----------Thankyou for choosing Py bank.---------\n\n");
+			//tmpDepost = 0;
+
+			depostSlipGenerator(accountName, accountNum, tmpDepost, accountBalance);
 			tmpDepost = 0;
 
-			char statement[50] = {};
-
-			fp = fopen("bank_statement.txt", "a+");
+			fp = fopen("bank_statement.dat", "a+");
 
 			if (fp == NULL)
 			{
 				printf("error");
 				exit(1);
-
 			}
 
-			fputc(statement, fp);
-			fwrite(accountName,sizeof(accountName),1,fp);
+			//fputs(&statement, fp);
+			fwrite(&accountName,sizeof(accountName),1,fp);
+			fwrite(&accountNum,sizeof(accountNum),1,fp);
+			fwrite(&accountBalance,sizeof(accountBalance),1,fp);
+			
 
 			fclose(fp);
 
-
 		}
+
 		else if (depositeAmount < 5)
 		{
 			printf("\t\tMinimum deposit amount is %.2f\n", minimumDeposite);
@@ -117,6 +128,7 @@ int main(void)
 	}
 	else if (choice == 3)
 	{
+		system("clear");
 		float withdrawAmount;
 
 		printf("\t\tEnter the amount to withraw: ");
@@ -145,6 +157,7 @@ int main(void)
 	}
 	else if (choice == 4)
 	{
+		system("clear");
 		float transfarAmount;
 		long int transfarAccount;
 
@@ -182,38 +195,15 @@ int main(void)
 		}
 
 	}
-	else if (choice == 5)
-	{
-		printf("exiting...\n");
-
-	}
 	else
 	{
 		printf("invalid input.");
 
 	}
+	printf("\n\n\t\tDo you wish to perform another transaction?\n");
+	printf("\t\tPress [1], 0[No]\n");
+	scanf("%d", &continueTransaction);
+
+	} while(continueTransaction != 0);
 		return (0);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
